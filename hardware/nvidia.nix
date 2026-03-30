@@ -7,7 +7,6 @@
     nvidiaSettings = true;
     powerManagement = {
       enable = true;
-      finePowerManagement = true; # allows GPU to fully power down when idle
     };
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };

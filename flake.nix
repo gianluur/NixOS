@@ -5,9 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    nixpkgs-cachyos = {
-      url = "github:CachyOS/nixpkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
     };
 
     dms = {
@@ -35,14 +34,10 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-cachyos, dms, dms-plugin-registry, dgop, snappy-switcher, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nix-cachyos-kernel, dms, dms-plugin-registry, dgop, snappy-switcher, home-manager, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgsUnstable = import nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    pkgsCachyos = import nixpkgs-cachyos {
       inherit system;
       config.allowUnfree = true;
     };
@@ -50,14 +45,14 @@
   {
     nixosConfigurations.workstation = nixpkgs.lib.nixosSystem {
       inherit system;
-      specialArgs = { inherit inputs pkgsUnstable pkgsCachyos; };
+      specialArgs = { inherit inputs pkgsUnstable; };
       modules = [
         ({ ... }: {
           nixpkgs = {
             config.allowUnfree = true;
             overlays = [
               (_final: _prev: { unstable = pkgsUnstable; })
-              (_final: _prev: { cachyos = pkgsCachyos; })
+              nix-cachyos-kernel.overlays.default
             ];
           };
         })
@@ -67,7 +62,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.shxqow = import ./home/shxqow.nix;
-          home-manager.extraSpecialArgs = { inherit inputs pkgsUnstable pkgsCachyos; };
+          home-manager.extraSpecialArgs = { inherit inputs pkgsUnstable; };
         }
       ];
     };

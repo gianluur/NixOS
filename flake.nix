@@ -52,6 +52,10 @@
             config.allowUnfree = true;
             overlays = [
               (_final: _prev: { unstable = pkgsUnstable; })
+              (_final: prev: {
+                unstable = pkgsUnstable;
+                dgop = inputs.dgop.packages.${prev.system}.default;
+              })
               nix-cachyos-kernel.overlays.default
             ];
           };

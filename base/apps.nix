@@ -22,8 +22,7 @@
      evince
      nautilus
      gnome-photos
-     flatseal
-     onlyoffice-bin
+     onlyoffice-desktopeditors
      vlc
      distroshelf
 

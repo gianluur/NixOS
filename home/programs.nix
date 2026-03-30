@@ -27,7 +27,6 @@
     defaultEditor = true;
     viAlias  = true;
     vimAlias = true;
-    package  = pkgsUnstable.neovim;
   };
 
   programs.lazygit.enable   = true;

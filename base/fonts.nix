@@ -23,7 +23,7 @@
       # Compatibility (emojy, chinese characters etc...)
       noto-fonts 
       noto-fonts-cjk-sans # Asian characters
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       liberation_ttf
     ];
   };
